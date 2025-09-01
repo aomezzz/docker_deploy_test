@@ -1,0 +1,83 @@
+/* Custom SweetAlert2 Animations */
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate__animated {
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+}
+
+.animate__bounceIn {
+  animation-name: bounceIn;
+}
+
+.animate__fadeInUp {
+  animation-name: fadeInUp;
+}
+
+.animate__fadeOutDown {
+  animation-name: fadeOutDown;
+}
+
+.animate__fadeOut {
+  animation-name: fadeOut;
+}
+
+/* Custom SweetAlert2 Dark Theme */
+.swal2-popup.swal2-dark {
+  background: #1f2937 !important;
+  color: #ffffff !important;
+}
+
+.swal2-title {
+  color: #ffffff !important;
+}
+
+.swal2-html-container {
+  color: #e5e7eb !important;
+}
