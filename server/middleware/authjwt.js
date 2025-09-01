@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
 import config from "../config/auth.config.js";
+import db from "../model/index.js";
+
+const User = db.User;
 
 const verifytoken = (req, res, next) => {
     let token = req.headers["authorization"];
@@ -22,7 +25,11 @@ const verifytoken = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-    User.findByPk(req.username).then((user) => {
+    User.findOne({ where: { username: req.username } }).then((user) => {
+        if (!user) {
+            return res.status(404).send({ message: "User not found!" });
+        }
+        
         user.getRoles().then((roles) => {
             for (let i = 0; i < roles.length; i++) {
                 if (roles[i].name === "admin") {
@@ -30,24 +37,32 @@ const isAdmin = (req, res, next) => {
                     return;
                 }
             }
-            res.status(401).send({ message: "Unauthorized!" });
+            res.status(403).send({ message: "Require Admin Role!" });
             return;
         });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
     });
 };
 
 const ModOrAdmin = (req, res, next) => {
-    User.findByPk(req.username).then((user) => {
+    User.findOne({ where: { username: req.username } }).then((user) => {
+        if (!user) {
+            return res.status(404).send({ message: "User not found!" });
+        }
+        
         user.getRoles().then((roles) => {
             for (let i = 0; i < roles.length; i++) {
-                if (roles[i].name === "admin " || roles[i].name === "moderator") {
+                if (roles[i].name === "admin" || roles[i].name === "moderator") {
                     next();
                     return;
                 }
             }
-            res.status(401).send({ message: "Unauthorized!" });
+            res.status(403).send({ message: "Require Moderator or Admin Role!" });
             return;
         });
+    }).catch(err => {
+        res.status(500).send({ message: err.message });
     });
 };
 
